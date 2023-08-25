@@ -15,6 +15,7 @@ public class Sistema extends javax.swing.JFrame {
 
     public Sistema() {
         initComponents();
+        setLocationRelativeTo(this);
     }
 
     @SuppressWarnings("unchecked")
@@ -94,7 +95,6 @@ public class Sistema extends javax.swing.JFrame {
         switch (tokens[0]) {
             case "mkdir":
                 if (tokens.length > 1) {
-                jTextArea1.append(" Ingrese el nombre del nuevo archivo");
                     DirecName = tokens[1];
                     
                     String rutaNuevaCarpeta = DirecActual.getAbsolutePath() + File.separator + DirecName;
@@ -112,7 +112,6 @@ public class Sistema extends javax.swing.JFrame {
 
             case "mfile":
                  if (tokens.length > 1) {
-                jTextArea1.append(" Ingrese el nombre del nuevo archivo");
                 DirecName = tokens[1];
                 String rutaNuevaCarpetaArchivo = DirecActual.getAbsolutePath() + File.separator + DirecName;
                 File newFile = new File(rutaNuevaCarpetaArchivo);
@@ -192,17 +191,26 @@ public class Sistema extends javax.swing.JFrame {
             default:
                 jTextArea1.append("\nError: comando desconocido\n");
                 break;
-            case "wr":
-    try {
+         case "wr":
+   try {
         if (tokens.length > 1) {
-            String nombreArchivo = tokens[1]; 
-            String content = command.substring(nombreArchivo.length()); 
+            String nombreArchivo = tokens[1].trim();  
+            if (!nombreArchivo.isEmpty()) { 
+                int startIndex = command.indexOf(nombreArchivo) + nombreArchivo.length();
+                String contenido = command.substring(startIndex).trim();
 
-            FileWriter escribir = new FileWriter(nombreArchivo);
-            escribir.write(content);
-            escribir.close();
+                if (!contenido.isEmpty()) { 
+                    FileWriter escribir = new FileWriter(nombreArchivo);
+                    escribir.write(contenido);
+                    escribir.close();
 
-            jTextArea1.append("Texto escrito en el archivo.\n");
+                    jTextArea1.append("Texto escrito en el archivo.\n");
+                } else {
+                    jTextArea1.append("Texto vacio, no se escribio dato.\n");
+                }
+            } else {
+                jTextArea1.append("Nombre de archivo invalido.\n");
+            }
         } else {
             jTextArea1.append("Nombre de archivo faltante.\n");
         }
@@ -210,7 +218,6 @@ public class Sistema extends javax.swing.JFrame {
         e.printStackTrace();
     }
     break;
-
 case "rd":
     try {
         if (tokens.length > 1) {
