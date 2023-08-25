@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -171,6 +172,19 @@ public class Sistema extends javax.swing.JFrame {
                 }
                 jTextArea1.setText(tabla);
 
+                break;
+                 case "date":
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                Date date = new Date();
+                jTextArea1.append("\nFecha actual: " + dateFormat.format(date) + "\n");
+                break;
+            case "time":
+                DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+                Date time = new Date();
+                jTextArea1.append("\nHora actual: " + timeFormat.format(time) + "\n");
+                break;
+            default:
+                jTextArea1.append("\nError: comando desconocido\n");
                 break;
             case "<wr>":
                try {
