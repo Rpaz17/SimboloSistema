@@ -1,7 +1,14 @@
 package Simbolo_Sistemas;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 
 public class Sistema extends javax.swing.JFrame {
 
@@ -27,12 +34,10 @@ public class Sistema extends javax.swing.JFrame {
 
         jTextField1.setBackground(new java.awt.Color(204, 153, 255));
         jTextField1.setFont(new java.awt.Font("SimSun", 0, 14)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(0, 0, 0));
         jTextField1.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.darkGray, java.awt.Color.lightGray));
         jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 480, 30));
 
         jLabel1.setFont(new java.awt.Font("SimSun", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("SIMBOLO DE SISTEMAS");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 240, 30));
 
@@ -46,7 +51,6 @@ public class Sistema extends javax.swing.JFrame {
 
         jToggleButton1.setBackground(new java.awt.Color(255, 204, 204));
         jToggleButton1.setFont(new java.awt.Font("SimSun", 1, 14)); // NOI18N
-        jToggleButton1.setForeground(new java.awt.Color(0, 0, 0));
         jToggleButton1.setText("ENTER");
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,6 +135,69 @@ public class Sistema extends javax.swing.JFrame {
                     jTextArea1.append("\nError: " + DirecName + " no es una carpeta\n");
                 }
                 break;
+            case "...":
+                File carpetaAnterior = new File(System.getProperty("user.dir")).getParentFile();
+                System.setProperty("user.dir", carpetaAnterior.getAbsolutePath());
+                jTextArea1.append("\nCarpeta actual: " + carpetaAnterior.getAbsolutePath() + "\n");
+                break;
+            case "dir":
+                File[] archivos = DirecActual.listFiles();
+                Arrays.sort(archivos);
+
+                String formatoFecha = "yyyy-MM-dd HH:mm:ss";
+                SimpleDateFormat sdf = new SimpleDateFormat(formatoFecha);
+
+                String tabla = String.format("%-50s%-20s\n", "Nombre", "Fecha de creación");
+                tabla += "------------------------------------------------------------------\n";
+
+                for (File archivo : archivos) {
+                    if (archivo.isDirectory()) {
+                        String fecha = sdf.format(new Date(archivo.lastModified()));
+                        tabla += String.format("%-50s%-20s\n", archivo.getName(), fecha);
+                    }
+                }
+                jTextArea1.setText(tabla);
+
+                break;
+            case"<wr>":
+               try {
+            BufferedReader leer=new BufferedReader(new InputStreamReader(System.in));
+
+            System.out.print("Nombre del archivo: ");
+            String nombreArchivo = leer.readLine();
+
+            System.out.print("Ingrese el texto que desea escribir en el archivo: ");
+            String content = leer.readLine();
+
+            FileWriter escribir = new FileWriter(nombreArchivo);
+            escribir.write(content);
+            escribir.close();
+
+            System.out.println("Texto escrito en el archivo.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        break;
+        case"<rd>":
+             try {
+            BufferedReader leer= new BufferedReader(new InputStreamReader(System.in));
+
+            System.out.print("Ingrese el nombre del archivo a leer: ");
+            String fileName = leer.readLine();
+
+            FileReader fileReader= new FileReader(fileName);
+            BufferedReader bufferedlector = new BufferedReader(fileReader);
+
+            String line;
+            System.out.println("Contenido del archivo:");
+            while ((line = bufferedlector.readLine())!= null) {
+                System.out.println(line);
+            }
+            bufferedlector.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+     
         }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
