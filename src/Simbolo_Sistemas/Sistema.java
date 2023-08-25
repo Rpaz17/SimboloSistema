@@ -1,6 +1,7 @@
 package Simbolo_Sistemas;
 
 import java.io.File;
+import java.io.IOException;
 
 public class Sistema extends javax.swing.JFrame {
 
@@ -88,7 +89,24 @@ public class Sistema extends javax.swing.JFrame {
                     jTextArea1.append("\nError al crear la carpeta.\n");
                 }
                 break;
+                
+            case "mfile":
+                DirecName = tokens[1];
 
+                String rutaNuevaCarpetaArchivo = DirecActual.getAbsolutePath() + File.separator + DirecName;
+                File newFile = new File(rutaNuevaCarpetaArchivo);
+
+                try {
+                    if (newFile.createNewFile()) {
+                        jTextArea1.append("\nArchivo creado: " + newFile.getAbsolutePath() + "\n");
+                    } else {
+                        jTextArea1.append("\nEl archivo ya existe o ha ocurrido un error.\n");
+                    }
+                } catch (IOException e) {
+                    jTextArea1.append("\nError al crear el archivo.\n");
+                }
+                break;
+                
             case "rm":
                 DirecName = tokens[1];
 
