@@ -88,6 +88,31 @@ public class Sistema extends javax.swing.JFrame {
                     jTextArea1.append("\nError al crear la carpeta.\n");
                 }
                 break;
+
+            case "rm":
+                DirecName = tokens[1];
+
+                String rutaCarpetaAEliminar = DirecActual.getAbsolutePath() + File.separator + DirecName;
+                File carpetaAEliminar = new File(rutaCarpetaAEliminar);
+
+                if (carpetaAEliminar.delete()) {
+                    jTextArea1.append("\nCarpeta eliminada: " + carpetaAEliminar.getAbsolutePath() + "\n");
+                } else {
+                    jTextArea1.append("\nError al eliminar la carpeta\n");
+                }
+                break;
+
+            case "cd":
+                DirecName = tokens[1];
+
+                File carpetaACambiar = new File(DirecName);
+                if (carpetaACambiar.isDirectory()) {
+                    System.setProperty("user.dir", carpetaACambiar.getAbsolutePath());
+                    jTextArea1.append("\nCarpeta actual: " + carpetaACambiar.getAbsolutePath() + "\n");
+                } else {
+                    jTextArea1.append("\nError: " + DirecName + " no es una carpeta\n");
+                }
+                break;
         }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
