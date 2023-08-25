@@ -187,43 +187,47 @@ public class Sistema extends javax.swing.JFrame {
                 jTextArea1.append("\nError: comando desconocido\n");
                 break;
             case "wr":
-               try {
-                BufferedReader leer = new BufferedReader(new InputStreamReader(System.in));
+    try {
+        if (tokens.length > 1) {
+            String nombreArchivo = tokens[1]; 
+            String content = command.substring(nombreArchivo.length()); 
 
-                jTextArea1.append("Nombre del archivo: ");
-                String nombreArchivo = leer.readLine();
+            FileWriter escribir = new FileWriter(nombreArchivo);
+            escribir.write(content);
+            escribir.close();
 
-                jTextArea1.append("Ingrese el texto que desea escribir en el archivo: ");
-                String content = leer.readLine();
+            jTextArea1.append("Texto escrito en el archivo.\n");
+        } else {
+            jTextArea1.append("Nombre de archivo faltante.\n");
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    break;
 
-                FileWriter escribir = new FileWriter(nombreArchivo);
-                escribir.write(content);
-                escribir.close();
+case "rd":
+    try {
+        if (tokens.length > 1) {
+            String fileName = tokens[1]; 
 
-                jTextArea1.append("Texto escrito en el archivo.");
-            } catch (IOException e) {
-                e.printStackTrace();
+            FileReader fileReader = new FileReader(fileName);
+            BufferedReader bufferedlector = new BufferedReader(fileReader);
+
+            String line;
+            StringBuilder fileContent = new StringBuilder("Contenido del archivo:\n");
+            while ((line = bufferedlector.readLine()) != null) {
+                fileContent.append(line).append("\n");
             }
-            break;
-            case "rd":
-             try {
-                BufferedReader leer = new BufferedReader(new InputStreamReader(System.in));
+            bufferedlector.close();
 
-                jTextArea1.append("Ingrese el nombre del archivo a leer: ");
-                String fileName = leer.readLine();
-
-                FileReader fileReader = new FileReader(fileName);
-                BufferedReader bufferedlector = new BufferedReader(fileReader);
-
-                String line;
-                jTextArea1.append("Contenido del archivo:");
-                while ((line = bufferedlector.readLine()) != null) {
-                    System.out.println(line);
-                }
-                bufferedlector.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            jTextArea1.append(fileContent.toString());
+        } else {
+            jTextArea1.append("Nombre de archivo faltante.\n");
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    break;
 
         }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
