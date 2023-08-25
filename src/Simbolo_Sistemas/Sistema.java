@@ -41,6 +41,7 @@ public class Sistema extends javax.swing.JFrame {
         jLabel1.setText("SIMBOLO DE SISTEMAS");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 240, 30));
 
+        jTextArea1.setBackground(new java.awt.Color(51, 51, 51));
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("SimSun", 1, 14)); // NOI18N
         jTextArea1.setForeground(new java.awt.Color(255, 255, 255));
@@ -77,26 +78,35 @@ public class Sistema extends javax.swing.JFrame {
         String command = jTextField1.getText();
         String[] tokens = command.split(" ");
 
-        String DirecName = tokens[0];
-
         File DirecActual = new File(System.getProperty("user.dir"));
+        if (tokens.length == 0) {
+            jTextArea1.append("\nError: Comando vacío\n");
+            return;
+        }
+        String DirecName = tokens[0];
         switch (tokens[0]) {
             case "mkdir":
-                DirecName = tokens[1];
+                if (tokens.length > 1) {
+                jTextArea1.append(" Ingrese el nombre del nuevo archivo");
+                    DirecName = tokens[1];
+                    
+                    String rutaNuevaCarpeta = DirecActual.getAbsolutePath() + File.separator + DirecName;
 
-                String rutaNuevaCarpeta = DirecActual.getAbsolutePath() + File.separator + DirecName;
-
-                File newDirec = new File(rutaNuevaCarpeta);
-                if (newDirec.mkdir()) {
-                    jTextArea1.append("\nCarpeta creada: " + newDirec.getAbsolutePath() + "\n");
-                } else {
-                    jTextArea1.append("\nError al crear la carpeta.\n");
+                    File newDirec = new File(rutaNuevaCarpeta);
+                    if (newDirec.mkdir()) {
+                        jTextArea1.append("\nCarpeta creada: " + newDirec.getAbsolutePath() + "\n");
+                    } else {
+                        jTextArea1.append("\nError al crear la carpeta.\n");
+                    }
+                }else{
+                      jTextArea1.append(" NO SIRVEEEE");
                 }
                 break;
-                
-            case "mfile":
-                DirecName = tokens[1];
 
+            case "mfile":
+                 if (tokens.length > 1) {
+                jTextArea1.append(" Ingrese el nombre del nuevo archivo");
+                DirecName = tokens[1];
                 String rutaNuevaCarpetaArchivo = DirecActual.getAbsolutePath() + File.separator + DirecName;
                 File newFile = new File(rutaNuevaCarpetaArchivo);
 
@@ -109,9 +119,11 @@ public class Sistema extends javax.swing.JFrame {
                 } catch (IOException e) {
                     jTextArea1.append("\nError al crear el archivo.\n");
                 }
+                 }
                 break;
-                
+
             case "rm":
+                 if (tokens.length > 1) {
                 DirecName = tokens[1];
 
                 String rutaCarpetaAEliminar = DirecActual.getAbsolutePath() + File.separator + DirecName;
@@ -122,6 +134,7 @@ public class Sistema extends javax.swing.JFrame {
                 } else {
                     jTextArea1.append("\nError al eliminar la carpeta\n");
                 }
+                 }
                 break;
 
             case "cd":
@@ -159,45 +172,45 @@ public class Sistema extends javax.swing.JFrame {
                 jTextArea1.setText(tabla);
 
                 break;
-            case"<wr>":
+            case "<wr>":
                try {
-            BufferedReader leer=new BufferedReader(new InputStreamReader(System.in));
+                BufferedReader leer = new BufferedReader(new InputStreamReader(System.in));
 
-            System.out.print("Nombre del archivo: ");
-            String nombreArchivo = leer.readLine();
+                jTextArea1.append("Nombre del archivo: ");
+                String nombreArchivo = leer.readLine();
 
-            System.out.print("Ingrese el texto que desea escribir en el archivo: ");
-            String content = leer.readLine();
+                jTextArea1.append("Ingrese el texto que desea escribir en el archivo: ");
+                String content = leer.readLine();
 
-            FileWriter escribir = new FileWriter(nombreArchivo);
-            escribir.write(content);
-            escribir.close();
+                FileWriter escribir = new FileWriter(nombreArchivo);
+                escribir.write(content);
+                escribir.close();
 
-            System.out.println("Texto escrito en el archivo.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        break;
-        case"<rd>":
-             try {
-            BufferedReader leer= new BufferedReader(new InputStreamReader(System.in));
-
-            System.out.print("Ingrese el nombre del archivo a leer: ");
-            String fileName = leer.readLine();
-
-            FileReader fileReader= new FileReader(fileName);
-            BufferedReader bufferedlector = new BufferedReader(fileReader);
-
-            String line;
-            System.out.println("Contenido del archivo:");
-            while ((line = bufferedlector.readLine())!= null) {
-                System.out.println(line);
+                jTextArea1.append("Texto escrito en el archivo.");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            bufferedlector.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-     
+            break;
+            case "<rd>":
+             try {
+                BufferedReader leer = new BufferedReader(new InputStreamReader(System.in));
+
+                jTextArea1.append("Ingrese el nombre del archivo a leer: ");
+                String fileName = leer.readLine();
+
+                FileReader fileReader = new FileReader(fileName);
+                BufferedReader bufferedlector = new BufferedReader(fileReader);
+
+                String line;
+                jTextArea1.append("Contenido del archivo:");
+                while ((line = bufferedlector.readLine()) != null) {
+                    System.out.println(line);
+                }
+                bufferedlector.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
