@@ -186,7 +186,7 @@ public class Sistema extends javax.swing.JFrame {
             default:
                 jTextArea1.append("\nError: comando desconocido\n");
                 break;
-            case "<wr>":
+            case "wr":
                try {
                 BufferedReader leer = new BufferedReader(new InputStreamReader(System.in));
 
@@ -205,7 +205,7 @@ public class Sistema extends javax.swing.JFrame {
                 e.printStackTrace();
             }
             break;
-            case "<rd>":
+            case "rd":
              try {
                 BufferedReader leer = new BufferedReader(new InputStreamReader(System.in));
 
