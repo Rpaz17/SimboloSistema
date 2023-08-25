@@ -10,12 +10,18 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Sistema extends javax.swing.JFrame {
 
     public Sistema() {
         initComponents();
         setLocationRelativeTo(this);
+        reproducirMusica();
     }
 
     @SuppressWarnings("unchecked")
@@ -81,7 +87,19 @@ public class Sistema extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+   private void reproducirMusica() {
+        try {
+            File archivoMusica = new File("src/tay/theMan.wav");
 
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(archivoMusica);
+
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        }
+    }
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         String command = jTextField1.getText();
         String[] tokens = command.split(" ");
